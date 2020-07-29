@@ -82,6 +82,14 @@
 		<mysql.driver.version>5.1.46</mysql.driver.version>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.apereo.cas</groupId>
+            <artifactId>cas-server-support-rest</artifactId>
+            <version>${cas.version}</version>
+        </dependency>
+    </dependencies>
+
     <repositories>
         <repository>
             <id>sonatype-releases</id>

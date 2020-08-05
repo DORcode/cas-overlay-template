@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @ClassName TestController
- * @Description: TODO
+ * @Description:
  * @Author kh
  * @Date 2020-07-29 19:09
  * @Version V1.0
@@ -16,7 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 public class TestController {
     @GetMapping("/user")
     public Object user(HttpServletRequest request) {
-        return request.getUserPrincipal();
+        String username = request.getAttribute("credentials").toString();
+        return username;
 
     }
 }

@@ -3,7 +3,9 @@ package com.coin.config;
 import com.coin.config.handler.UsernamePasswordCaptchaAuthenticationHandler;
 import org.apereo.cas.authentication.AuthenticationEventExecutionPlan;
 import org.apereo.cas.authentication.AuthenticationEventExecutionPlanConfigurer;
+import org.apereo.cas.authentication.AuthenticationHandler;
 import org.apereo.cas.authentication.principal.DefaultPrincipalFactory;
+import org.apereo.cas.authentication.principal.PrincipalFactory;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.services.ServicesManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +29,14 @@ public class CaptchaAuthConfiguration implements AuthenticationEventExecutionPla
     @Qualifier("servicesManager")
     ServicesManager servicesManager;
 
+    @Autowired
+    @Qualifier("principalFactory")
+    private PrincipalFactory principalFactory;
+
     @Bean
-    public UsernamePasswordCaptchaAuthenticationHandler captchaAuthenticationHandler() {
+    public AuthenticationHandler captchaAuthenticationHandler() {
         return new UsernamePasswordCaptchaAuthenticationHandler(UsernamePasswordCaptchaAuthenticationHandler.class.getName(), servicesManager,
-                new DefaultPrincipalFactory(), 1);
+                principalFactory, 1);
     }
     @Override
     public void configureAuthenticationExecutionPlan(AuthenticationEventExecutionPlan plan) {

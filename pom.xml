@@ -67,8 +67,8 @@
     </build>
 
     <properties>
-        <cas.version>5.3.14</cas.version>
-        <springboot.version>1.5.18.RELEASE</springboot.version>
+        <cas.version>6.2.0</cas.version>
+        <springboot.version>2.2.8.RELEASE</springboot.version>
         <!-- app.server could be -jetty, -undertow, -tomcat, or blank if you plan to provide appserver -->
         <app.server>-tomcat</app.server>
 
@@ -227,7 +227,7 @@
                 <dependency>
                     <groupId>org.projectlombok</groupId>
                     <artifactId>lombok</artifactId>
-                    <version>1.16.20</version>
+                    <version>1.18.10</version>
                 </dependency>
 
                 <dependency>
@@ -316,6 +316,27 @@
                             <scope>test</scope>
                             <verifyPomFiles>true</verifyPomFiles>
                             <failNoSignature>false</failNoSignature>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.8.0</version>
+                        <configuration>
+                            <source>${java.version}</source>
+                            <target>${java.version}</target>
+                            <encoding>${project.build.sourceEncoding}</encoding>
+                            <compilerArguments>
+                                <extdirs>src\main\webapp\WEB-INF\lib</extdirs>
+                            </compilerArguments>
+                            <annotationProcessorPaths>
+                                <path>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                    <version>1.18.10</version>
+                                </path>
+                            </annotationProcessorPaths>
                         </configuration>
                     </plugin>
                 </plugins>

@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apereo.cas.authentication.*;
 import org.apereo.cas.authentication.handler.support.AbstractPreAndPostProcessingAuthenticationHandler;
 import org.apereo.cas.authentication.principal.PrincipalFactory;
+import org.apereo.cas.authentication.principal.PrincipalResolver;
+import org.apereo.cas.services.RegexRegisteredService;
 import org.apereo.cas.services.ServicesManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,16 +17,15 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.view.ResourceBundleViewResolver;
+import org.springframework.webflow.action.AbstractAction;
 
 import javax.security.auth.login.AccountNotFoundException;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpSession;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ClassName CapchaProcessingAuthenticationHandler
@@ -42,23 +43,32 @@ public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAnd
 
     @Override
     protected AuthenticationHandlerExecutionResult doAuthentication(Credential credential) throws GeneralSecurityException, PreventedException {
-        log.info("验证码验证");
         RememberMeUsernamePasswordCaptchaCredential rmpc = (RememberMeUsernamePasswordCaptchaCredential) credential;
+
         String captcha = rmpc.getCaptcha();
         String username = rmpc.getUsername();
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpSession session = requestAttributes.getRequest().getSession(false);
-        String captchaOrigin = (String) session.getAttribute("captcha");
-        String tempTime = (String) session.getAttribute("captchaValidTime");
-        long captchaValidTime = Long.valueOf((tempTime));
-        if(System.currentTimeMillis() > captchaValidTime) {
-            throw new LoginException("the captcha is invalid");
+        if(session == null) {
+            session = requestAttributes.getRequest().getSession();
         }
-        if(StringUtils.isEmpty(captcha) || !captcha.toLowerCase().equals(captchaOrigin.toString())) {
-            throw new LoginException("the captcha input incorrect");
+        String captchaOrigin = null;
+        String tempTime = null;
+        Object object = session.getAttribute("captcha");
+        if(object != null) {
+            captchaOrigin = (String) session.getAttribute("captcha");
+            tempTime = (String) session.getAttribute("captchaValidTime");
+
+            long captchaValidTime = Long.valueOf((tempTime));
+            if (System.currentTimeMillis() > captchaValidTime) {
+                throw new LoginException("the captcha is invalid");
+            }
+            if (StringUtils.isEmpty(captcha) || !captcha.toLowerCase().equals(captchaOrigin.toString())) {
+                throw new LoginException("the captcha input incorrect");
+            }
         }
-        // PasswordEncoder
-        if(!rmpc.getPassword().equals("user")) {
+
+        if (!rmpc.getPassword().equals("user")) {
             throw new FailedLoginException("帐户或密码错误");
         }
 

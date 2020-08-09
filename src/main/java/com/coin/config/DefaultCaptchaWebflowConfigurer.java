@@ -3,7 +3,6 @@ package com.coin.config;
 import com.coin.RememberMeUsernamePasswordCaptchaCredential;
 import lombok.extern.slf4j.Slf4j;
 import org.apereo.cas.authentication.PolicyBasedAuthenticationManager;
-import org.apereo.cas.authentication.RememberMeUsernamePasswordCredential;
 import org.apereo.cas.authentication.UsernamePasswordCredential;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.web.flow.CasWebflowConstants;

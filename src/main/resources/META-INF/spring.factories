@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.coin.config.CasConfig,\
   com.coin.config.CaptchaAuthConfiguration,\
-  com.coin.config.CaptchaWebflowConfiguration
+  com.coin.config.CaptchaWebflowConfiguration,\
+  com.coin.config.CaptchaConfig

@@ -1,6 +1,7 @@
 package com.coin.config.handler;
 
 import com.coin.RememberMeUsernamePasswordCaptchaCredential;
+import com.coin.exception.CaptchaException;
 import lombok.extern.slf4j.Slf4j;
 import org.apereo.cas.authentication.*;
 import org.apereo.cas.authentication.handler.support.AbstractPreAndPostProcessingAuthenticationHandler;
@@ -37,12 +38,14 @@ import java.util.*;
 @Slf4j
 public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAndPostProcessingAuthenticationHandler {
 
+    // service
+
     public UsernamePasswordCaptchaAuthenticationHandler(String name, ServicesManager servicesManager, PrincipalFactory principalFactory, Integer order) {
         super(name, servicesManager, principalFactory, order);
     }
 
     @Override
-    protected AuthenticationHandlerExecutionResult doAuthentication(Credential credential) throws GeneralSecurityException, PreventedException {
+    protected AuthenticationHandlerExecutionResult doAuthentication(Credential credential) throws GeneralSecurityException {
         RememberMeUsernamePasswordCaptchaCredential rmpc = (RememberMeUsernamePasswordCaptchaCredential) credential;
 
         String captcha = rmpc.getCaptcha();
@@ -53,18 +56,16 @@ public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAnd
             session = requestAttributes.getRequest().getSession();
         }
         String captchaOrigin = null;
-        String tempTime = null;
         Object object = session.getAttribute("captcha");
         if(object != null) {
             captchaOrigin = (String) session.getAttribute("captcha");
-            tempTime = (String) session.getAttribute("captchaValidTime");
+            long captchaValidTime = (long) session.getAttribute("captchaValidTime");
 
-            long captchaValidTime = Long.valueOf((tempTime));
             if (System.currentTimeMillis() > captchaValidTime) {
-                throw new LoginException("the captcha is invalid");
+                throw new CaptchaException("the captcha is invalid");
             }
-            if (StringUtils.isEmpty(captcha) || !captcha.toLowerCase().equals(captchaOrigin.toString())) {
-                throw new LoginException("the captcha input incorrect");
+            if (StringUtils.isEmpty(captcha) || !captcha.toLowerCase().equals(captchaOrigin.toLowerCase())) {
+                throw new CaptchaException("the captcha input incorrect");
             }
         }
 

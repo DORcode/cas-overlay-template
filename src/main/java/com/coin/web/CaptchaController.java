@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.OutputStream;
 
@@ -26,6 +27,9 @@ public class CaptchaController {
     @RequestMapping("captcha")
     public void captcha(HttpServletRequest request, HttpServletResponse response) {
         String text = defaultKaptcha.createText();
+        HttpSession session = request.getSession();
+        session.setAttribute("captchaValidTime", System.currentTimeMillis() + 1000 * 10 * 60);
+        session.setAttribute("captcha", text);
         BufferedImage image = defaultKaptcha.createImage(text);
         response.setHeader("Pragma", "No-cache");
         response.setHeader("Cache-Control", "no-cache");

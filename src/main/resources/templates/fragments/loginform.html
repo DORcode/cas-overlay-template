@@ -79,21 +79,15 @@
                             <label for="captcha" th:utext="#{screen.welcome.label.captcha}">Captcha</label>
 
                             <div>
-                                <input class="form-control required"
-                                       type="kaptcha"
+                                <input class="required"
+                                       type="text"
                                        id="captcha"
-                                       size="10"
+                                       size="15"
                                        tabindex="2"
-                                       th:accesskey="#{screen.welcome.label.kaptcha.accesskey}"
+                                       th:accesskey="#{screen.welcome.label.captcha.accesskey}"
                                        th:field="*{captcha}"
                                        autocomplete="off"/>
-                                <img th:src="@{/captcha}" id="captcha_img" width="20px" onclick="javascript:refreshCaptcha()" />
-                                <span id="capslock-on" style="display:none;">
-                                <p>
-                                    <i class="fa fa-exclamation-circle"></i>
-                                    <span th:utext="#{screen.capslock.on}"/>
-                                </p>
-                            </span>
+                                <img style="margin-left: 10px;" th:src="@{/captcha}" id="captcha_img" width="80px" height="25px" onclick="javascript:refreshCaptcha()" />
                             </div>
                         </section>
 

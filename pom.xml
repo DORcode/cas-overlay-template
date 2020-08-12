@@ -189,11 +189,11 @@
                     <version>${cas.version}</version>
                 </dependency>
 
-                <dependency>
-                    <groupId>org.apereo.cas</groupId>
-                    <artifactId>cas-server-support-shiro-authentication</artifactId>
-                    <version>${cas.version}</version>
-                </dependency>
+<!--                <dependency>-->
+<!--                    <groupId>org.apereo.cas</groupId>-->
+<!--                    <artifactId>cas-server-support-shiro-authentication</artifactId>-->
+<!--                    <version>${cas.version}</version>-->
+<!--                </dependency>-->
 
 <!--                <dependency>-->
 <!--                    <groupId>org.apereo.cas</groupId>-->

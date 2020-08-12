@@ -1,22 +1,16 @@
 {
   "@class" : "org.apereo.cas.services.RegexRegisteredService",
-  "serviceId" : "^(https|imaps|http)://localhost:8385/.*",
-  "name" : "HTTPS and IMAPS",
-  "id" : 10000001,
+  "serviceId" : "^(https|imaps|http)://.*",
+  "name" : "allclient",
+  "id" : 10000003,
   "description" : "This service definition authorizes all application urls that support HTTPS and IMAPS protocols.",
-  "evaluationOrder" : 10000,
+  "evaluationOrder" : 99,
   "proxyPolicy" : {
     "@class" : "org.jasig.cas.services.RefuseRegisteredServiceProxyPolicy"
-  },
-  "usernameAttributeProvider" : {
-    "@class" : "org.jasig.cas.services.DefaultRegisteredServiceUsernameProvider"
   },
   "logoutType" : "BACK_CHANNEL",
   "attributeReleasePolicy" : {
     "@class" : "org.jasig.cas.services.ReturnAllowedAttributeReleasePolicy",
-    "principalAttributesRepository" : {
-      "@class" : "org.jasig.cas.authentication.principal.DefaultPrincipalAttributesRepository"
-    },
     "authorizedToReleaseCredentialPassword" : false,
     "authorizedToReleaseProxyGrantingTicket" : false
   },

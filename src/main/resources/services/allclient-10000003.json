@@ -6,16 +6,16 @@
   "description" : "This service definition authorizes all application urls that support HTTPS and IMAPS protocols.",
   "evaluationOrder" : 99,
   "proxyPolicy" : {
-    "@class" : "org.jasig.cas.services.RefuseRegisteredServiceProxyPolicy"
+    "@class" : "org.apereo.cas.services.RefuseRegisteredServiceProxyPolicy"
   },
   "logoutType" : "BACK_CHANNEL",
   "attributeReleasePolicy" : {
-    "@class" : "org.jasig.cas.services.ReturnAllowedAttributeReleasePolicy",
+    "@class" : "org.apereo.cas.services.ReturnAllAttributeReleasePolicy",
     "authorizedToReleaseCredentialPassword" : false,
     "authorizedToReleaseProxyGrantingTicket" : false
   },
   "accessStrategy" : {
-    "@class" : "org.jasig.cas.services.DefaultRegisteredServiceAccessStrategy",
+    "@class" : "org.apereo.cas.services.DefaultRegisteredServiceAccessStrategy",
     "enabled" : true,
     "ssoEnabled" : true
   }
